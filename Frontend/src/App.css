@@ -1,0 +1,27 @@
+
+.perspective {
+    perspective: 1000px;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* Hide calendar icon in Firefox */
+input[type="date"] {
+    /* -moz-appearance: textfield; */
+    text-decoration-color: gray !important;
+}
+
+/* .jodity-editor-custom{
+  @apply dark: bg-black dark:text-white;
+} */
