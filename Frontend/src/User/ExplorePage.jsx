@@ -97,8 +97,8 @@ const ExplorePage = () => {
             className="absolute top-0 left-0 w-full h-full object-cover"
           >
             <source
-              src={Hero_Vdo1}
-              // src="https://drive.google.com/uc?id=1AKJrfT1itD059rVjjlRpNsmA-Vgg8BTI"
+              // src={Hero_Vdo1}
+              src="https://shorturl.at/n7FII"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -115,9 +115,9 @@ const ExplorePage = () => {
               </p>
 
               <div className="flex flex-col items-center space-y-4 w-[95%] mx-auto">
-                <div className="flex items-center w-full space-x-[1px] bg-red-900">
+                <div className="flex items-center w-full space-x-[1px]">
                   <select
-                    className="px-4 py-2 text-gray-800 border border-gray-300 rounded-l-md bg-gray-200 h-full"
+                    className="px-4 py-[15.25px] text-gray-800 border border-gray-300 rounded-l-md bg-gray-200 h-full"
                     value={selectedClassType}
                     onChange={(e) => setSelectedClassType(e.target.value)}
                   >
@@ -129,13 +129,13 @@ const ExplorePage = () => {
                   </select>
 
                   {/* Updated Autocomplete Search Bar */}
-                  <div className="w-full bg-red-900">
+                  <div className="w-full bg-red-900 ">
                     <Autocomplete
                       id="custom-input-demo"
                       freeSolo
                       options={uploadedDocuments.map((doc) => doc.title)}
                       renderInput={(params) => (
-                        <div ref={params.InputProps.ref} className="w-full">
+                        <div ref={params.InputProps.ref} className="w-full ">
                           <TextField
                             {...params}
                             placeholder="Search for articles, authors, or topics..."
@@ -152,7 +152,7 @@ const ExplorePage = () => {
                   <button
                     type="button"
                     onClick={handleSearch}
-                    className="bg-orange-500 text-white px-4 py-2 rounded-r-md hover:bg-orange-600"
+                    className="bg-orange-500 text-white px-4 py-4 rounded-r-md hover:bg-orange-600"
                   >
                     <i className="fa fa-search"></i>
                   </button>
@@ -198,24 +198,24 @@ const ExplorePage = () => {
       </header>
 
       <main className="">
-        <div className="p-6 bg-white shadow-lg ">
-          <div className="space-y-6">
+        <div className="p-6 bg-white shadow-lg dark:bg-black ">
+          <div className="space-y-6 ">
             {filteredDocuments.map((doc) => (
               <div
                 key={doc._id}
-                className="bg-gray-100 p-6 rounded-lg shadow-md flex flex-col"
+                className="bg-gray-100 p-6 rounded-lg shadow-md flex flex-col dark:text-white dark:bg-[#222]"
               >
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
                   {doc.title}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-white">
                   <strong>Uploaded Date:</strong> {doc.uploadDate}
                 </p>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 dark:text-white">
                   <strong>Class:</strong>{" "}
                   {stripHTML(doc.Class) || "Unclassified"}
                 </p>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 dark:text-white">
                   <strong>Summary:</strong>{" "}
                   {stripHTML(doc.summary) || "No summary available."}
                 </p>

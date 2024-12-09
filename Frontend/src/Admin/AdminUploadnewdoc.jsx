@@ -223,7 +223,7 @@ function AdminUploadnewdoc() {
             config={{
               readonly: false,
               toolbar: true,
-              theme: "custom", // Optionally set a custom theme
+              // theme: "custom", // Optionally set a custom theme
               iframe: false,
             }}
             // className="dark:bg-black dark:border-gray-600"
