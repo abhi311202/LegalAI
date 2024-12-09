@@ -1,5 +1,5 @@
-import express from 'express';
-import mongoose from 'mongoose';
+import express from "express";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -11,21 +11,21 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 const PORT = process.env.PORT || 4000;
-const URI = process.env.MongoDBURI;
+const URI = process.env.MongoDBURL;
 
 // Connect to MONGODB
 
 try {
-    mongoose.connect(URI, {
-        useNewUrlParser:true,
-        useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB');
+  mongoose.connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  console.log("Connected to MongoDB");
 } catch (error) {
-    console.log("Error: ", error);
+  console.log("Error: ", error);
 }
 
-// defining Routes 
+// defining Routes
 
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
@@ -33,4 +33,3 @@ app.use("/admin", adminRoute);
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
- 

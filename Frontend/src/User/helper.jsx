@@ -1,88 +1,221 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Autocomplete, TextField } from "@mui/material";
 
-function Helper() {
-  const [profileData, setProfileData] = useState({});
-  const storedObjectString = localStorage.getItem("Users");
-  const myObject = JSON.parse(storedObjectString);
-  // Fetch profile data from database (simulated here)
+const ExplorePage = () => {
+  const navigate = useNavigate();
+  const [uploadedDocuments, setDocuments] = useState([]);
+  const [filteredDocuments, setFilteredDocuments] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [selectedClassType, setSelectedClassType] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("A-Z");
+ 
   useEffect(() => {
-    setProfileData({
-      name: myObject.name,
-      email: myObject.email,
-      phone: myObject.phone,
-      dob: myObject.dob,
-      gender: myObject.gender,
-      aadhaar: myObject.aadhaar,
-      profession: myObject.profession,
-      organisation: myObject.organisation,
-      docUploaded: myObject.docUploaded,
-      registeredDate: myObject.registeredDate,
-    });
+    const fetchDocuments = async () => {
+      try {
+        const res = await axios.post("http://localhost:4001/user/Documents");
+        if (res.data) {
+          setDocuments(res.data.docs);
+          setFilteredDocuments(res.data.docs);
+        }
+      } catch (err) {
+        console.error(err.response || err.message);
+      }
+    };
+
+    fetchDocuments();
   }, []);
+
+  const stripHTML = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+
+  const filterDocuments = () => {
+    let filtered = [...uploadedDocuments];
+
+    if (selectedClassType && selectedClassType !== "All") {
+      filtered = filtered.filter(
+        (doc) =>
+          stripHTML(doc.Class).toLowerCase() === selectedClassType.toLowerCase()
+      );
+    }
+
+    if (startDate && endDate) {
+      filtered = filtered.filter((doc) => {
+        const docDate = new Date(doc.uploadDate);
+        return docDate >= new Date(startDate) && docDate <= new Date(endDate);
+      });
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter((doc) => {
+        const lowercasedQuery = searchQuery.toLowerCase();
+        return (
+          doc.title.toLowerCase().includes(lowercasedQuery) ||
+          stripHTML(doc.summary).toLowerCase().includes(lowercasedQuery) ||
+          stripHTML(doc.Class).toLowerCase().includes(lowercasedQuery)
+        );
+      });
+    }
+
+    if (sortOrder) {
+      filtered.sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+        return sortOrder === "A-Z"
+          ? titleA.localeCompare(titleB)
+          : titleB.localeCompare(titleA);
+      });p
+    }
+
+    setFilteredDocuments(filtered);
+  };
+
+  const handleSearch = () => {
+    filterDocuments();
+  };
+
+  const handleViewMore = (doc) => {
+    const newTab = window.open(`/document-details/${doc._id}`, "_blank");
+    newTab.focus();
+  };
+
   return (
-    <div>
-      <dialog id="My_Profile" className="modal text-black">
-        {/* <div className="modal-box"> */}
-        <div className="modal-box p-8 bg-white shadow-lg rounded-lg dark:bg-[#222] dark:text-stone-50">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4 dark:text-white">
-            My Profile
-          </h2>
-          <div className="space-y-2 mb-5">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Name:</span>
-              <span>{profileData.name}</span>
+    <div className="bg-gray-100 text-gray-900 mt-[65px]">
+      <header className="bg-blue-800 text-white py-16">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h1 className="text-4xl font-bold mb-4">
+            Explore Research Articles and Journals
+          </h1>
+          <p className="text-lg text-center mb-8">
+            Access thousands of high-quality research papers and articles.
+          </p>
+          
+
+          <div className="flex flex-col items-center space-y-4 w-[75%] mx-auto">
+            <div className="flex items-center w-full space-x-[1px] bg-red-900">
+              <select
+                className="px-4 py-2 text-gray-800 border border-gray-300 rounded-l-md bg-gray-200 h-full"
+                value={selectedClassType}
+                onChange={(e) => setSelectedClassType(e.target.value)}
+              >
+                <option value="All">All</option>
+                <option value="Criminal">Criminal</option>
+                <option value="Civil">Civil</option>
+                <option value="Corporate">Corporate</option>
+                <option value="Administration">Administration</option>
+              </select>
+
+              {/* Updated Autocomplete Search Bar */}
+              <div className="w-full bg-red-900">
+              <Autocomplete
+              id="custom-input-demo"
+                freeSolo
+                options={uploadedDocuments.map((doc) => doc.title)}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref} className="w-full">
+                  <TextField
+                    {...params}
+                    placeholder="Search for articles, authors, or topics..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    variant="outlined"
+                    className="w-full px-4 py-1 text-sm text-gray-800 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    
+                  />
+                  </div>
+                  
+                )}
+              />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="bg-orange-500 text-white px-4 py-2 rounded-r-md hover:bg-orange-600"
+              >
+                <i className="fa fa-search"></i>
+              </button>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Email:</span>
-              <span>{profileData.email}</span>
+
+            <div className="flex items-center space-x-4">
+              <div>
+                <label className="block text-gray-700">Start Date</label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="px-4 py-2 text-gray-800 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700">End Date</label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="px-4 py-2 text-gray-800 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700">Sort By</label>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="px-4 py-2 text-gray-800 border border-gray-300 rounded-md"
+                >
+                  <option value="A-Z">A-Z</option>
+                  <option value="Z-A">Z-A</option>
+                </select>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Phone:</span>
-              <span>{profileData.phone}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Date of Birth:</span>
-              <span>{profileData.dob}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Gender:</span>
-              <span>{profileData.gender}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Aadhaar ID:</span>
-              <span>{profileData.aadhaar}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Profession:</span>
-              <span>{profileData.profession}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold">Organization:</span>
-              <span>{profileData.organisation}</span>
-            </div>
-          </div>
-          <div className="flex justify-start gap-4">
-            <button
-              className="bg-blue-600 text-white font-medium px-5 py-2 rounded-md"
-              onClick={() => setShowChangePasswordModal(true)}
-            >
-              Change Password
-            </button>
-            <button
-              className="bg-green-600 text-white font-medium px-5 py-2 rounded-md"
-              onClick={() => setShowEditDetailsModal(true)}
-            >
-              Edit Details
-            </button>
           </div>
         </div>
-        {/* </div> */}
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+      </header>
+
+      <main className="py-12">
+        <div className="p-6 bg-white shadow-lg ">
+          <div className="space-y-6">
+            {filteredDocuments.map((doc) => (
+              <div
+                key={doc._id}
+                className="bg-gray-100 p-6 rounded-lg shadow-md flex flex-col"
+              >
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {doc.title}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  <strong>Uploaded Date:</strong> {doc.uploadDate}
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>Class:</strong>{" "}
+                  {stripHTML(doc.Class) || "Unclassified"}
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>Summary:</strong>{" "}
+                  {stripHTML(doc.summary) || "No summary available."}
+                </p>
+                <div className="flex justify-start">
+                <button
+                  onClick={() => handleViewMore(doc)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-4"
+                >
+                  View More
+                </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
 
-export default Helper;
+export default ExplorePage;
