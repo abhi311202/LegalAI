@@ -1,0 +1,67 @@
+[
+    {
+        "id":1,
+        "name":"Abhishek Kumar Rai",
+        "title":"North Eastern Hill University",
+        "price":0,
+        "category":"Free",
+        "image":"https://media.licdn.com/dms/image/v2/D5603AQFyjFSLKoS5_Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1725042481997?e=1734566400&v=beta&t=xjogVNFXjPRByHJ9rcXy_JPDA2i4I1IZulq-2oB2qkA"  
+    },
+    {
+        "id":2,
+        "name":"Abhi Nitnaware",
+        "title":"North Eastern Hill University",
+        "price":0,
+        "category":"Free",
+        "image":"https://media.licdn.com/dms/image/v2/D4D03AQEOukXjWbvBFQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1729342764238?e=1734566400&v=beta&t=-C7mq-aekVPJiNt6n-tTjrDtynP6sA_1hyLoC4UdzxA"  
+    },
+    {
+        "id":3,
+        "name":"Sanskar Kashyap",
+        "title":"North Eastern Hill University",
+        "price":0,
+        "category":"Free",
+        "image":"https://media.licdn.com/dms/image/v2/D4D03AQHfejuGDsnPhg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1696579526402?e=1734566400&v=beta&t=vqd841SAfFkkFhaTlx2qaGHs9V2u7hLcGFg1ZXLwAfE"  
+    },
+    {
+        "id":4,
+        "name":"Ujjwal Kumar",
+        "title":"North Eastern Hill University",
+        "price":0,
+        "category":"Free",
+        "image":"https://media.licdn.com/dms/image/v2/D5603AQEYoCTcRU8Okg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1729342965290?e=1734566400&v=beta&t=m6YIuBL2TYqXESH-ppQgWNV2nI88dii0M1Di8-pSKEc"  
+    },
+    {
+        "id":5,
+        "name":"Lapyntngenlang Kharkrang",
+        "title":"North Eastern Hill University",
+        "price":0,
+        "category":"Free",
+        "image":"https://as1.ftcdn.net/v2/jpg/04/96/48/42/1000_F_496484288_ywSmOsxXoUK8YY4fsh0O1IJiopbkzFmY.jpg"  
+    },
+    {
+        "id":6,
+        "name":"Story Book",
+        "title":"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+        "price":450,
+        "category":"Paid",
+        "image":"https://as1.ftcdn.net/v2/jpg/04/96/48/42/1000_F_496484288_ywSmOsxXoUK8YY4fsh0O1IJiopbkzFmY.jpg"  
+    },
+    {
+        "id":7,
+        "name":"Story Book",
+        "title":"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+        "price":300,
+        "category":"Paid",
+        "image":"https://as1.ftcdn.net/v2/jpg/04/96/48/42/1000_F_496484288_ywSmOsxXoUK8YY4fsh0O1IJiopbkzFmY.jpg"  
+    },
+    {
+        "id":8,
+        "name":"Story Book",
+        "title":"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+        "price":200,
+        "category":"Paid",
+        "image":"https://as1.ftcdn.net/v2/jpg/04/96/48/42/1000_F_496484288_ywSmOsxXoUK8YY4fsh0O1IJiopbkzFmY.jpg"  
+    }
+
+]
