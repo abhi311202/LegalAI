@@ -6,9 +6,12 @@ import cors from "cors";
 import userRoute from "./route/userRoute.js";
 import adminRoute from "./route/adminRoute.js";
 const app = express();
-
+import path from 'path';
 app.use(cors());
 app.use(express.json());
+const _dirname=path.dirname("");
+const buildpath = path.join(_dirname,"../Frontend/dist");
+app.use(express.static(buildpath));
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 const URI = process.env.MongoDBURL;
